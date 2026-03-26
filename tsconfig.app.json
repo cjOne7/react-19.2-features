@@ -25,11 +25,11 @@
     "noUncheckedSideEffectImports": true,
 
     /* Additional configured */
-    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true, // Enabling esModuleInterop will also enable allowSyntheticDefaultImports.
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts", "eslint.config.ts"]
 }
