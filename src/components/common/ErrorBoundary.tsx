@@ -1,10 +1,8 @@
-import type { ErrorInfo, ReactNode } from "react";
-import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { Alert, Box, Button } from "@mui/material";
 import React from "react";
+import type { ErrorInfo, ReactNode } from "react";
 
-interface Props {
+interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
 }
@@ -14,8 +12,8 @@ interface State {
   error: Error | null;
 }
 
-export class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };
   }
@@ -51,6 +49,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
         )
       );
     }
+
     return this.props.children;
   }
 }

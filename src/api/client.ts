@@ -8,7 +8,7 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }
-  return await response.json() as Promise<T>;
+  return (await response.json()) as Promise<T>;
 }
 
 export const apiClient = {

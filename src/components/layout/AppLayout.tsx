@@ -1,21 +1,17 @@
+import {
+  Article as ArticleIcon,
+  CheckBox as CheckBoxIcon,
+  DarkMode as DarkModeIcon,
+  Dashboard as DashboardIcon,
+  LightMode as LightModeIcon,
+  People as PeopleIcon,
+} from "@mui/icons-material";
+import { AppBar, Box, IconButton, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import { useColorScheme } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ArticleIcon from "@mui/icons-material/Article";
-import PeopleIcon from "@mui/icons-material/People";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import React, { type ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import type { TabId } from "@/types";
 
-interface Props {
+interface AppLayoutProps {
   activeTab: TabId;
   isPending: boolean;
   onTabChange: (tab: TabId) => void;
@@ -30,16 +26,17 @@ const TABS: { id: TabId; label: string; icon: ReactNode }[] = [
 ];
 
 // MUI v7: useColorScheme works with CssVarsProvider for instant theme switching
-function ThemeToggle() {
+const ThemeToggle: React.FC = (): ReactElement => {
   const { mode, setMode } = useColorScheme();
+
   return (
     <IconButton color="inherit" onClick={() => setMode(mode === "light" ? "dark" : "light")} title="Toggle theme">
       {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
     </IconButton>
   );
-}
+};
 
-export function AppLayout({ activeTab, isPending, onTabChange, children }: Props): React.ReactElement {
+export const AppLayout: React.FC<AppLayoutProps> = ({ activeTab, isPending, onTabChange, children }): ReactElement => {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <AppBar position="sticky" elevation={0} sx={{ borderBottom: "1px solid", borderColor: "divider" }}>
@@ -50,7 +47,7 @@ export function AppLayout({ activeTab, isPending, onTabChange, children }: Props
 
           <Tabs
             value={activeTab}
-            onChange={(_, v: TabId) => onTabChange(v)}
+            onChange={(_event, nextTab: TabId) => onTabChange(nextTab)}
             textColor="inherit"
             indicatorColor="secondary"
             sx={{ flexGrow: 1, opacity: isPending ? 0.6 : 1, transition: "opacity .2s" }}
@@ -76,4 +73,4 @@ export function AppLayout({ activeTab, isPending, onTabChange, children }: Props
       </Box>
     </Box>
   );
-}
+};

@@ -1,29 +1,22 @@
-import React, { Suspense } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Collapse from "@mui/material/Collapse";
-import Chip from "@mui/material/Chip";
-import Box from "@mui/material/Box";
+import React, { type ReactElement, Suspense } from "react";
+import { Box, Button, Card, CardActions, CardContent, Chip, Collapse, Typography } from "@mui/material";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { SkeletonCard } from "@/components/common/SkeletonCard";
-import { PostComments } from "./PostComments";
-import { createCachedPromise } from "@/utils/promiseCache";
 import { postsApi } from "@/api/posts.api";
-import type { Post } from "@/types";
+import { createCachedPromise } from "@/utils/promiseCache";
+import type { Comment, Post } from "@/types";
+import { PostComments } from "./PostComments";
 
-interface Props {
+interface PostCardProps {
   post: Post;
   expanded: boolean;
   onToggle: () => void;
 }
 
-export function PostCard({ post, expanded, onToggle }: Props): React.ReactElement {
+export const PostCard: React.FC<PostCardProps> = ({ post, expanded, onToggle }): ReactElement => {
   // Lazily create a cached promise only when the card is first expanded
   const commentsPromise = expanded
-    ? createCachedPromise(`comments/${post.id}`, () => postsApi.getComments(post.id))
+    ? createCachedPromise<Comment[]>(`comments/${post.id}`, () => postsApi.getComments(post.id))
     : null;
 
   return (
@@ -59,4 +52,4 @@ export function PostCard({ post, expanded, onToggle }: Props): React.ReactElemen
       </Collapse>
     </Card>
   );
-}
+};

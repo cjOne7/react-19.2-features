@@ -1,4 +1,4 @@
-import React, { useState, useTransition, Activity, Suspense } from "react";
+import React, { type ReactElement, useState, useTransition, Activity, Suspense } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { SkeletonCard } from "@/components/common/SkeletonCard";
@@ -18,7 +18,7 @@ const TAB_COMPONENTS: Record<TabId, React.ComponentType> = {
 // ┌─ useTransition: tab navigation never blocks the current UI ──────┐
 // │  Activity:     hidden tabs preserve their state (scroll, data)   │
 // └──────────────────────────────────────────────────────────────────┘
-export default function App() {
+export const App: React.FC = (): ReactElement => {
   const [activeTab, setActiveTab] = useState<TabId>("dashboard");
   const [isPending, startTransition] = useTransition();
 
@@ -41,4 +41,6 @@ export default function App() {
       ))}
     </AppLayout>
   );
-}
+};
+
+export default App;

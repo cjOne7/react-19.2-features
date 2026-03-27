@@ -1,32 +1,29 @@
-import React, { useState, useTransition, Suspense } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import LinearProgress from "@mui/material/LinearProgress";
+import React, { type ReactElement, Suspense, useState, useTransition } from "react";
+import { Box, LinearProgress, Stack, TextField, Typography } from "@mui/material";
+import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { FeatureBadge } from "@/components/common/FeatureBadge";
 import { SkeletonCard } from "@/components/common/SkeletonCard";
-import { ErrorBoundary } from "@/components/common/ErrorBoundary";
-import { PostsList } from "./PostsList";
 import { postsApi } from "@/api/posts.api";
-import { createCachedPromise } from "@/utils/promiseCache";
 import { usePageAnalytics } from "@/hooks/useAnalytics";
+import { createCachedPromise } from "@/utils/promiseCache";
+import type { Post } from "@/types";
+import { PostsList } from "./PostsList";
 
 // Promise is created OUTSIDE the render cycle → stable reference for use()
-const postsPromise = createCachedPromise("posts/all", postsApi.getAll);
+const postsPromise = createCachedPromise<Post[]>("posts/all", postsApi.getAll);
 
-export const PostsPage: React.FC = (): React.ReactElement => {
+export const PostsPage: React.FC = (): ReactElement => {
   usePageAnalytics("posts");
 
-  const [rawQuery, setRawQuery] = useState("");
-  const [filterQuery, setFilterQuery] = useState("");
+  const [rawQuery, setRawQuery] = useState<string>("");
+  const [filterQuery, setFilterQuery] = useState<string>("");
 
   // useTransition: search filtering is a non-urgent update
   // the input stays responsive while React prepares the filtered list
   const [isFiltering, startFilterTransition] = useTransition();
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value;
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = event.target.value;
     setRawQuery(value); // urgent — input must reflect immediately
     startFilterTransition(() => setFilterQuery(value)); // non-urgent — re-render list
   };

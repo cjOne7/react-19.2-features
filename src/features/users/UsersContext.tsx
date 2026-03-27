@@ -1,10 +1,11 @@
 import React, {
   createContext,
+  type ReactElement,
+  type ReactNode,
   use, // ← use() with Context — not just Promises!
+  useOptimistic,
   useState,
   useTransition,
-  useOptimistic,
-  type ReactNode,
 } from "react";
 import type { User } from "@/types";
 
@@ -12,7 +13,7 @@ interface UsersContextValue {
   users: User[];
   optimisticUsers: User[];
   isPending: boolean;
-  addOptimisticUser: (u: User) => void;
+  addOptimisticUser: (user: User) => void;
   removeOptimisticUser: (id: number) => void;
   setUsers: React.Dispatch<React.SetStateAction<User[]>>;
   startTransition: (fn: () => void) => void;
@@ -22,31 +23,30 @@ const UsersContext = createContext<UsersContextValue | null>(null);
 
 // Custom hook — throws descriptively if used outside provider
 export function useUsersContext(): UsersContextValue {
-  const ctx = use(UsersContext); // use() reads Context (not just Promises)
-  if (!ctx) throw new Error("useUsersContext must be used within <UsersProvider>");
-  return ctx;
+  const context = use<UsersContextValue | null>(UsersContext); // use() reads Context (not just Promises)
+  if (!context) throw new Error("useUsersContext must be used within <UsersProvider>");
+  return context;
 }
 
-interface Props {
+interface UsersProviderProps {
   initialUsers: User[];
   children: ReactNode;
 }
 
-export function UsersProvider({ initialUsers, children }: Props) {
+export const UsersProvider: React.FC<UsersProviderProps> = ({ initialUsers, children }): ReactElement => {
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [isPending, startTransition] = useTransition();
 
   // useOptimistic: local optimistic mirror of users for instant UI feedback
-  const [optimisticUsers, applyOptimistic] = useOptimistic(
-    users,
-    (current: User[], action: { type: "add"; user: User } | { type: "remove"; id: number }) => {
-      if (action.type === "add") return [...current, action.user];
-      return current.filter((u) => u.id !== action.id);
-    },
-  );
+  const [optimisticUsers, applyOptimistic] = useOptimistic<
+    User[],
+    { type: "add"; user: User } | { type: "remove"; id: number }
+  >(users, (currentUsers, action) => {
+    if (action.type === "add") return [...currentUsers, action.user];
+    return currentUsers.filter((userItem) => userItem.id !== action.id);
+  });
 
   const addOptimisticUser = (user: User): void => applyOptimistic({ type: "add", user });
-
   const removeOptimisticUser = (id: number): void => applyOptimistic({ type: "remove", id });
 
   return (
@@ -56,4 +56,4 @@ export function UsersProvider({ initialUsers, children }: Props) {
       {children}
     </UsersContext>
   );
-}
+};

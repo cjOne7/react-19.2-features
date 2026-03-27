@@ -1,16 +1,13 @@
-import React, { use } from "react";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
+import React, { type ReactElement, use } from "react";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import type { Comment } from "@/types";
 
-interface Props {
+interface PostCommentsProps {
   commentsPromise: Promise<Comment[]>;
 }
 
-export function PostComments({ commentsPromise }: Props): React.ReactElement {
-  const comments = use(commentsPromise);
+export const PostComments: React.FC<PostCommentsProps> = ({ commentsPromise }): ReactElement => {
+  const comments = use<Comment[]>(commentsPromise);
 
   return (
     <Stack spacing={1.5} mt={1}>
@@ -18,16 +15,16 @@ export function PostComments({ commentsPromise }: Props): React.ReactElement {
         {comments.length} Comments
       </Typography>
       <Divider />
-      {comments.map((c) => (
-        <Box key={c.id}>
+      {comments.map((comment) => (
+        <Box key={comment.id}>
           <Typography variant="caption" fontWeight={700}>
-            {c.name} · {c.email}
+            {comment.name} · {comment.email}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {c.body}
+            {comment.body}
           </Typography>
         </Box>
       ))}
     </Stack>
   );
-}
+};

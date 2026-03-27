@@ -1,19 +1,16 @@
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import Chip from "@mui/material/Chip";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PersonIcon from "@mui/icons-material/Person";
-import { useUsersContext } from "./UsersContext";
+import { Delete as DeleteIcon, Person as PersonIcon } from "@mui/icons-material";
+import { Card, CardActions, CardContent, Chip, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import React, { type ReactElement } from "react";
 import { usersApi } from "@/api/users.api";
 import type { User } from "@/types";
-import React from "react";
+import { useUsersContext } from "./UsersContext";
 
-function UserCard({ user, isOptimistic }: { user: User; isOptimistic?: boolean }): React.ReactElement {
+interface UserCardProps {
+  user: User;
+  isOptimistic?: boolean;
+}
+
+const UserCard: React.FC<UserCardProps> = ({ user, isOptimistic }): ReactElement => {
   const { removeOptimisticUser, setUsers, startTransition } = useUsersContext();
 
   const handleDelete = (): void => {
@@ -22,7 +19,7 @@ function UserCard({ user, isOptimistic }: { user: User; isOptimistic?: boolean }
     startTransition(async () => {
       try {
         await usersApi.delete(user.id);
-        setUsers((prev) => prev.filter((u) => u.id !== user.id));
+        setUsers((previousUsers) => previousUsers.filter((userItem) => userItem.id !== user.id));
       } catch {
         console.error("Delete failed — optimistic state will revert");
       }
@@ -68,11 +65,11 @@ function UserCard({ user, isOptimistic }: { user: User; isOptimistic?: boolean }
       </CardActions>
     </Card>
   );
-}
+};
 
-export function UsersList() {
+export const UsersList: React.FC = (): ReactElement => {
   const { optimisticUsers, users } = useUsersContext();
-  const optimisticIds = new Set(users.map((u) => u.id));
+  const optimisticIds = new Set<number>(users.map((userItem) => userItem.id));
 
   return (
     <Grid container spacing={2}>
@@ -83,4 +80,4 @@ export function UsersList() {
       ))}
     </Grid>
   );
-}
+};

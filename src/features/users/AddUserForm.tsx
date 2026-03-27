@@ -1,24 +1,19 @@
-import React, { useActionState } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
-import { FormSubmitButton } from "./FormSubmitButton";
+import React, { type ReactElement, useActionState } from "react";
+import { Alert, Card, CardContent, Stack, TextField, Typography } from "@mui/material";
 import { usersApi } from "@/api/users.api";
-import { useUsersContext } from "./UsersContext";
 import type { AddUserFormState, User } from "@/types";
+import { FormSubmitButton } from "./FormSubmitButton";
+import { useUsersContext } from "./UsersContext";
 
 const INITIAL_STATE: AddUserFormState = { status: "idle", message: "", user: null };
 
-export function AddUserForm(): React.ReactElement {
+export const AddUserForm: React.FC = (): ReactElement => {
   const { addOptimisticUser, setUsers } = useUsersContext();
 
   // useActionState: manages the full async form lifecycle
   // [state, formAction, isPending] — isPending is true while the async action runs
-  const [state, formAction] = useActionState(
-    async (_prev: AddUserFormState, formData: FormData): Promise<AddUserFormState> => {
+  const [state, formAction] = useActionState<AddUserFormState, FormData>(
+    async (_previousState: AddUserFormState, formData: FormData): Promise<AddUserFormState> => {
       const name = formData.get("name") as string;
       const email = formData.get("email") as string;
 
@@ -37,10 +32,10 @@ export function AddUserForm(): React.ReactElement {
       addOptimisticUser(optimisticUser);
 
       try {
-        const created = await usersApi.create(optimisticUser);
+        const createdUser = await usersApi.create(optimisticUser);
         // Commit the real server user
-        setUsers((prev) => [...prev, { ...created, id: optimisticUser.id }]);
-        return { status: "success", message: `✅ "${name}" added!`, user: created };
+        setUsers((previousUsers) => [...previousUsers, { ...createdUser, id: optimisticUser.id }]);
+        return { status: "success", message: `✅ "${name}" added!`, user: createdUser };
       } catch {
         return { status: "error", message: "❌ Failed to add user. Try again.", user: null };
       }
@@ -72,4 +67,4 @@ export function AddUserForm(): React.ReactElement {
       </CardContent>
     </Card>
   );
-}
+};

@@ -1,18 +1,15 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
-import React from "react";
+import { Card, CardContent, Skeleton, Stack } from "@mui/material";
+import React, { type ReactElement } from "react";
 
-interface Props {
+interface SkeletonCardProps {
   count?: number;
 }
 
-export function SkeletonCard({ count = 1 }: Props): React.ReactElement {
+export const SkeletonCard: React.FC<SkeletonCardProps> = ({ count = 1 }): ReactElement => {
   return (
     <>
-      {Array.from({ length: count }, (_, i) => (
-        <Card key={i} sx={{ mb: 2 }}>
+      {Array.from({ length: count }, (_, index) => (
+        <Card key={index} sx={{ mb: 2 }}>
           <CardContent>
             <Skeleton variant="text" width="60%" height={28} />
             <Stack spacing={1} mt={1}>
@@ -25,4 +22,4 @@ export function SkeletonCard({ count = 1 }: Props): React.ReactElement {
       ))}
     </>
   );
-}
+};

@@ -13,5 +13,5 @@ export function createCachedPromise<T>(key: string, fetcher: () => Promise<T>): 
 }
 
 export function invalidateCache(...keys: string[]): void {
-  keys.forEach((k) => cache.delete(k));
+  keys.forEach((key) => cache.delete(key));
 }

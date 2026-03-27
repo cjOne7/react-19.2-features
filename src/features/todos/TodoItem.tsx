@@ -1,24 +1,19 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Delete as DeleteIcon } from "@mui/icons-material";
+import { Box, Card, CardContent, Checkbox, IconButton, Typography } from "@mui/material";
+import React, { type ReactElement } from "react";
 import type { Todo } from "@/types";
-import React from "react";
 
-interface Props {
+interface TodoItemProps {
   todo: Todo;
   onToggle: (id: number, completed: boolean) => void;
   onDelete: (id: number) => void;
 }
 
-export function TodoItem({ todo, onToggle, onDelete }: Props): React.ReactElement {
+export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }): ReactElement => {
   return (
     <Card variant="outlined">
       <CardContent sx={{ py: "8px !important", display: "flex", alignItems: "center", gap: 1 }}>
-        <Checkbox checked={todo.completed} onChange={(e) => onToggle(todo.id, e.target.checked)} size="small" />
+        <Checkbox checked={todo.completed} onChange={(event) => onToggle(todo.id, event.target.checked)} size="small" />
         <Typography
           variant="body2"
           sx={{
@@ -37,4 +32,4 @@ export function TodoItem({ todo, onToggle, onDelete }: Props): React.ReactElemen
       </CardContent>
     </Card>
   );
-}
+};

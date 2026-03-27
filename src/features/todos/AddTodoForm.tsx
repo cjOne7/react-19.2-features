@@ -1,17 +1,13 @@
-import React, { useRef } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import React, { type ReactElement, useRef } from "react";
+import { Card, CardContent, Stack, TextField, Typography } from "@mui/material";
 import { FormSubmitButton } from "@/features/users/FormSubmitButton";
 
-interface Props {
+interface AddTodoFormProps {
   onAdd: (title: string) => Promise<void>;
 }
 
-export function AddTodoForm({ onAdd }: Props): React.ReactElement {
-  const formRef = useRef<HTMLFormElement>(null);
+export const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }): ReactElement => {
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   // Native async form action — useFormStatus in FormSubmitButton
   // reads this form's pending state automatically
@@ -46,4 +42,4 @@ export function AddTodoForm({ onAdd }: Props): React.ReactElement {
       </CardContent>
     </Card>
   );
-}
+};

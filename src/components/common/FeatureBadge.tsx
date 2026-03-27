@@ -1,16 +1,15 @@
-import Chip from "@mui/material/Chip";
-import Tooltip from "@mui/material/Tooltip";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import React from "react";
+import { AutoAwesome as AutoAwesomeIcon } from "@mui/icons-material";
+import { Chip, Tooltip } from "@mui/material";
+import React, { type ReactElement } from "react";
 
-interface Props {
+interface FeatureBadgeProps {
   label: string;
   description?: string;
   color?: "primary" | "secondary" | "success" | "warning" | "info" | "error";
 }
 
 // Single Responsibility: purely renders a "feature in use" indicator
-export function FeatureBadge({ label, description, color = "primary" }: Props): React.ReactElement {
+export const FeatureBadge: React.FC<FeatureBadgeProps> = ({ label, description, color = "primary" }): ReactElement => {
   const chip = (
     <Chip
       icon={<AutoAwesomeIcon sx={{ fontSize: "0.85rem !important" }} />}
@@ -29,4 +28,4 @@ export function FeatureBadge({ label, description, color = "primary" }: Props): 
   ) : (
     chip
   );
-}
+};

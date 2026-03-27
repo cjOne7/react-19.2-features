@@ -1,12 +1,6 @@
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Chip from "@mui/material/Chip";
-import Box from "@mui/material/Box";
+import { Box, Card, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
+import React, { type ReactElement } from "react";
 import { usePageAnalytics } from "@/hooks/useAnalytics";
-import React from "react";
 
 const FEATURES = [
   {
@@ -59,7 +53,7 @@ const FEATURES = [
   },
 ] as const;
 
-export function DashboardPage(): React.ReactElement {
+export const DashboardPage: React.FC = (): ReactElement => {
   usePageAnalytics("dashboard");
 
   return (
@@ -73,12 +67,12 @@ export function DashboardPage(): React.ReactElement {
       </Typography>
 
       <Grid container spacing={3}>
-        {FEATURES.map((f) => (
-          <Grid key={f.hook} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+        {FEATURES.map((feature) => (
+          <Grid key={feature.hook} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
             <Card
               sx={{
                 height: "100%",
-                borderTop: `4px solid ${f.color}`,
+                borderTop: `4px solid ${feature.color}`,
                 transition: "transform .15s",
                 "&:hover": { transform: "translateY(-2px)" },
               }}
@@ -86,20 +80,20 @@ export function DashboardPage(): React.ReactElement {
               <CardContent>
                 <Stack spacing={1.5}>
                   <Chip
-                    label={f.hook}
+                    label={feature.hook}
                     size="small"
                     sx={{
-                      bgcolor: `${f.color}20`,
-                      color: f.color,
+                      bgcolor: `${feature.color}20`,
+                      color: feature.color,
                       fontFamily: "monospace",
                       fontWeight: 700,
                       alignSelf: "flex-start",
                     }}
                   />
                   <Typography variant="caption" color="text.secondary">
-                    📍 {f.page}
+                    📍 {feature.page}
                   </Typography>
-                  <Typography variant="body2">{f.description}</Typography>
+                  <Typography variant="body2">{feature.description}</Typography>
                 </Stack>
               </CardContent>
             </Card>
@@ -108,4 +102,4 @@ export function DashboardPage(): React.ReactElement {
       </Grid>
     </Box>
   );
-}
+};
