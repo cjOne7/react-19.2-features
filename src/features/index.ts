@@ -1,4 +1,5 @@
 export * from "./dashboard/DashboardPage";
+export * from "./dashboard/DashboardCardItem";
 export * from "./posts/PostCard";
 export * from "./posts/PostComments";
 export * from "./posts/PostsList";
