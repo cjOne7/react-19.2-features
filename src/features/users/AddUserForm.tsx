@@ -1,9 +1,8 @@
 import React, { type ReactElement, useActionState } from "react";
 import { Alert, Card, CardContent, Stack, TextField, Typography } from "@mui/material";
-import { usersApi } from "@/api/users.api";
+import { usersApi } from "@/api";
+import { FormSubmitButton, useUsersContext } from "@/features";
 import type { AddUserFormState, User } from "@/types";
-import { FormSubmitButton } from "./FormSubmitButton";
-import { useUsersContext } from "./UsersContext";
 
 const INITIAL_STATE: AddUserFormState = { status: "idle", message: "", user: null };
 

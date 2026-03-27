@@ -1,9 +1,9 @@
 import { Delete as DeleteIcon, Person as PersonIcon } from "@mui/icons-material";
 import { Card, CardActions, CardContent, Chip, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import React, { type ReactElement } from "react";
-import { usersApi } from "@/api/users.api";
+import { usersApi } from "@/api";
+import { useUsersContext } from "@/features";
 import type { User } from "@/types";
-import { useUsersContext } from "./UsersContext";
 
 interface UserCardProps {
   user: User;

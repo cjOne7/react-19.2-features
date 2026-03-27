@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
 import React, { type ReactElement } from "react";
-import { usePageAnalytics } from "@/hooks/useAnalytics";
+import { usePageAnalytics } from "@/hooks";
 
 const FEATURES = [
   {

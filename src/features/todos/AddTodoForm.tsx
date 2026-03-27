@@ -1,6 +1,6 @@
 import React, { type ReactElement, useRef } from "react";
 import { Card, CardContent, Stack, TextField, Typography } from "@mui/material";
-import { FormSubmitButton } from "@/features/users/FormSubmitButton";
+import { FormSubmitButton } from "@/features";
 
 interface AddTodoFormProps {
   onAdd: (title: string) => Promise<void>;

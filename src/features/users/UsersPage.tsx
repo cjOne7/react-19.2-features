@@ -1,15 +1,11 @@
 import React, { type ReactElement, Suspense, use } from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { ErrorBoundary } from "@/components/common/ErrorBoundary";
-import { FeatureBadge } from "@/components/common/FeatureBadge";
-import { SkeletonCard } from "@/components/common/SkeletonCard";
-import { usersApi } from "@/api/users.api";
-import { usePageAnalytics } from "@/hooks/useAnalytics";
-import { createCachedPromise } from "@/utils/promiseCache";
+import { usersApi } from "@/api";
+import { ErrorBoundary, FeatureBadge, SkeletonCard } from "@/components";
+import { AddUserForm, UsersList, UsersProvider } from "@/features";
+import { usePageAnalytics } from "@/hooks";
+import { createCachedPromise } from "@/utils";
 import type { User } from "@/types";
-import { AddUserForm } from "./AddUserForm";
-import { UsersList } from "./UserCard";
-import { UsersProvider } from "./UsersContext";
 
 const usersPromise = createCachedPromise<User[]>("users/all", usersApi.getAll);
 

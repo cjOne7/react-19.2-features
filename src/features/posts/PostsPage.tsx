@@ -1,13 +1,11 @@
 import React, { type ReactElement, Suspense, useState, useTransition } from "react";
 import { Box, LinearProgress, Stack, TextField, Typography } from "@mui/material";
-import { ErrorBoundary } from "@/components/common/ErrorBoundary";
-import { FeatureBadge } from "@/components/common/FeatureBadge";
-import { SkeletonCard } from "@/components/common/SkeletonCard";
-import { postsApi } from "@/api/posts.api";
-import { usePageAnalytics } from "@/hooks/useAnalytics";
-import { createCachedPromise } from "@/utils/promiseCache";
+import { postsApi } from "@/api";
+import { ErrorBoundary, FeatureBadge, SkeletonCard } from "@/components";
+import { PostsList } from "@/features";
+import { usePageAnalytics } from "@/hooks";
+import { createCachedPromise } from "@/utils";
 import type { Post } from "@/types";
-import { PostsList } from "./PostsList";
 
 // Promise is created OUTSIDE the render cycle → stable reference for use()
 const postsPromise = createCachedPromise<Post[]>("posts/all", postsApi.getAll);

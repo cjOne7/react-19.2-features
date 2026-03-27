@@ -1,7 +1,7 @@
 import React, { type ReactElement, use, useState } from "react";
 import { Stack, Typography } from "@mui/material";
+import { PostCard } from "@/features";
 import type { Post } from "@/types";
-import { PostCard } from "./PostCard";
 
 interface PostsListProps {
   postsPromise: Promise<Post[]>;

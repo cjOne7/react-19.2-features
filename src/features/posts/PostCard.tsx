@@ -1,11 +1,10 @@
 import React, { type ReactElement, Suspense } from "react";
 import { Box, Button, Card, CardActions, CardContent, Chip, Collapse, Typography } from "@mui/material";
-import { ErrorBoundary } from "@/components/common/ErrorBoundary";
-import { SkeletonCard } from "@/components/common/SkeletonCard";
-import { postsApi } from "@/api/posts.api";
-import { createCachedPromise } from "@/utils/promiseCache";
+import { postsApi } from "@/api";
+import { ErrorBoundary, SkeletonCard } from "@/components";
+import { createCachedPromise } from "@/utils";
+import { PostComments } from "@/features";
 import type { Comment, Post } from "@/types";
-import { PostComments } from "./PostComments";
 
 interface PostCardProps {
   post: Post;

@@ -1,14 +1,11 @@
 import React, { type ReactElement, Suspense, use, useOptimistic, useState } from "react";
 import { Box, LinearProgress, Stack, Typography } from "@mui/material";
-import { ErrorBoundary } from "@/components/common/ErrorBoundary";
-import { FeatureBadge } from "@/components/common/FeatureBadge";
-import { SkeletonCard } from "@/components/common/SkeletonCard";
-import { todosApi } from "@/api/todos.api";
-import { usePageAnalytics } from "@/hooks/useAnalytics";
-import { createCachedPromise } from "@/utils/promiseCache";
+import { todosApi } from "@/api";
+import { ErrorBoundary, FeatureBadge, SkeletonCard } from "@/components";
+import { AddTodoForm, TodoItem } from "@/features";
+import { usePageAnalytics } from "@/hooks";
+import { createCachedPromise } from "@/utils";
 import type { Todo } from "@/types";
-import { AddTodoForm } from "./AddTodoForm";
-import { TodoItem } from "./TodoItem";
 
 const CURRENT_USER_ID = 1;
 const todosPromise = createCachedPromise<Todo[]>(`todos/user-${CURRENT_USER_ID}`, () =>

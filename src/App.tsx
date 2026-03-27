@@ -1,12 +1,7 @@
 import React, { type ReactElement, useState, useTransition, Activity, Suspense } from "react";
-import { AppLayout } from "@/components/layout/AppLayout";
-import { ErrorBoundary } from "@/components/common/ErrorBoundary";
-import { SkeletonCard } from "@/components/common/SkeletonCard";
+import { AppLayout, ErrorBoundary, SkeletonCard } from "@/components";
+import { DashboardPage, PostsPage, TodosPage, UsersPage } from "@/features";
 import type { TabId } from "@/types";
-import { DashboardPage } from "@/features/dashboard/DashboardPage.tsx";
-import { PostsPage } from "@/features/posts/PostsPage.tsx";
-import { UsersPage } from "@/features/users/UsersPage.tsx";
-import { TodosPage } from "@/features/todos/TodosPage.tsx";
 
 const TAB_COMPONENTS: Record<TabId, React.ComponentType> = {
   dashboard: DashboardPage,
